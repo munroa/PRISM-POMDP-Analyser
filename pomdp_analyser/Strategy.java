@@ -1,5 +1,6 @@
 package pomdp_analyser;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Strategy {
@@ -57,12 +58,44 @@ public class Strategy {
     }
 
     public String getGraph() {
+        DecimalFormat df = new DecimalFormat("#.00");
         StringBuilder sb = new StringBuilder();
+        StringBuilder labels = new StringBuilder();
+
         sb.append("digraph G {");
         for (Execution e : executions) {
-            sb.append(e.getStartState() + " -> " + e.getEndState() + "\n");
+            StringBuilder initialVars  = new StringBuilder();
+            StringBuilder initialBeliefs  = new StringBuilder();
+
+            // build inital vars string for label
+            for (int a : e.getVariableInitialValue()) {
+                initialVars.append(a + ",");
+            }
+            initialVars.deleteCharAt(initialVars.length() - 1);
+
+            // build belifs string for label
+            for (double a : e.getInitialBeliefProb()) {
+                initialBeliefs.append(Math.round(a * 100.0) / 100.0 + ",");
+            }
+            initialBeliefs.deleteCharAt(initialBeliefs.length() - 1);
+
+            sb.append(e.getStartState() + " -> " + e.getEndState() + "[label=\"" + e.getProbability() + "\"];\n");
+            labels.append(e.getStartState() + " [label=\"" + e.getStartState() + "\\n(" + initialVars +")\n[" + initialBeliefs + "]\"];\n");
         }
+        sb.append(labels);
         sb.append("}");
         return sb.toString();
+    }
+
+
+    public String toEnglish() {
+
+        for (Execution e : executions) {
+            System.out.println(e.getStartState());
+        }
+
+
+
+        return "yer da";
     }
 }

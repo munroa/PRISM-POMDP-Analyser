@@ -20,6 +20,8 @@ public class main {
                     System.out.println("java main.java <file.adv>");
                     System.out.println("-g returns graph");
                     System.out.println("-t returns text");
+                } else if (arg.equals("-e")) {
+                    System.out.println(s.toEnglish());
                 }
 
             }

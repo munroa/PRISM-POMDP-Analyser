@@ -47,7 +47,7 @@ public class AdvParser {
                 }
 
                 execution.setNonDetNumber(Integer.parseInt(line.split("[\\&\\@]")[1].split("/")[0].trim())); // non det number
-                execution.setProbability(Double.parseDouble(line.split("[\\&\\@]")[1].split("/")[1])); // probability
+                execution.setProbability(Math.round(Double.parseDouble(line.split("[\\&\\@]")[1].split("/")[1]) * 100.0) / 100.0); // probability
 
                 strategy.getExecutions().add(execution);
             }
