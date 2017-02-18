@@ -1,6 +1,9 @@
 import pomdp_analyser.AdvParser;
 import pomdp_analyser.Strategy;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.File;
 
 public class main {
@@ -14,6 +17,21 @@ public class main {
 
                 if (arg.equals("-g")) {
                     System.out.println(s.getGraph());
+
+                    try (PrintWriter graph = new PrintWriter("graph.dot")) {
+                        graph.println(s.getGraph());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    try {
+                        Runtime.getRuntime().exec("dot -Tpdf graph.dot -o graph.pdf");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
                 } else if (arg.equals("-t")) {
                     System.out.println(s.toString());
                 } else if (arg.equals("-h") || arg.equals("-help")) {
